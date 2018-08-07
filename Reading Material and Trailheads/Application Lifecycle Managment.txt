@@ -1,0 +1,65 @@
+#########################################################################################################
+Trailhead Notes
+#########################################################################################################
+Application Lifecycle Management (Org-based Change Management)
+
+1 - The basics
+Sandbox types:
+    a. Dev - no Data, just org configuration. can store up to 200 MB and can be refreshed once per day.
+    b. Dev Pro - similar to Dev, but can store up to 1 GB of data.
+    c. Partial Copy - Dev Sandbox with a sampling of data that you define in the Sandbox template. You 
+        have a choice on the objects that get copied over, but not the records. Can store up to 5GB (~2.5 
+        million records). Can be refreshed every 5 days.
+    d. Full - Complete copy of Production org and data. Can be refreshed every 29 days.
+
+
+Sandbox licensing: all licences are copied from Production and can only be applied via refreshing with
+    the sync tool.
+Why is the email changed upon Sandbox creation (except the Sandbox creator)?
+So users don't receive emails from sandbox testing. As an added measure, Email Delivery defaults to off. 
+
+
+Prod deployment best practices: 
+    1. Use one sandbox for staging and another for reversion with all the metadata in Prod. 
+        a. TODO - Kai: Create ticket to represent work to create another sandbox for reversions. 
+    2. Schedule the release and use the Maintenance profile to control maintenance updates.            
+    3. LPT - You can use the Mass Email Users feature in Salesforce to send out release notes.
+
+
+Salesforce Releases:
+    1. We are not using Change Sets for Sandbox -> Prod deployments. When using the Ant Migration tool, 
+        ensure the package.xml file is set to a version Prod supports.
+    2. LPT - trust.salesforce.com gives you the exact date for the
+
+
+Ant Migration Tool:
+    1. Deployment requires a zip file that contains the metadata components and a package.xml file. This
+        is the manifest that contains everything being sent from a sandbox to Prod.
+    2. Requirements:
+        a. Java
+        b. Ant - Add an ANT_HOME enviroment variable to the PATH Environment Variable and point that to 
+            to the bin directory of apache ant. Also add the bin directory to your PATH.
+    3. download Force.com migration tool from any Salesforce org to get started.
+    4. The build.xml file contains the scripts that occur during deployment. Makes sense to create your
+        own directory.
+    5. Set build.properties file to your login and security token.
+    6. Retrieval - Set everything you want to retrieve in the package.xml file in the retrieve directory.
+    7. Deployment - all files inside the 'deploy' target name are sent to the target org specified in the
+        build properties.
+    8. Removal - files inside the directory are destructiveChanges.xml and package.xml
+
+
+Quicker deployments:
+    1. Inside build.xml, set the checkOnly property to 'true' and Test Level to 'Run Local Tests'.
+        Test Levels:
+        a. RunSpecifiedTests - Only the tests explicitly specified are run. The executed tests must cover
+            the deployed class or trigger with 75% minimum coverage.
+        b. RunLocalTests (default for Prod orgs if classes are in package) - Runs all tests in the org 
+            except ones that originate from installed managed packages.
+        c. RunAllTestsInOrg - all tests, including managed package tests are run.
+    2. Run a validation by creating your own custom target name and including the necessary salesforce
+        variables specified in build.properties.
+    3. Copy the ID from the validation command output, then add it to the sf.recentValidationId variable
+        in the build.properties file.
+    4. Create a new target with the sf:deployRecentValidation variables filled included. Most importantly,
+        recentValidationId.

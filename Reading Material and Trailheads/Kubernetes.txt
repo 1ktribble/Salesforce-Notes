@@ -1,0 +1,14 @@
+Docker is the runtime used to run containers. Servers that are provisioned in the hypervisors have Docker installed inside each of them.
+Docker allows you to provision multiple OSes on a server.
+Kubernetes is a container-orchestration system. Kubernetes manages containers - can allocate how many containers you have running at a time.
+    master nodes - storage nodes, api * where the command is called from.
+    worker nodes - infrastructure we control. multiple per master nodes. Each one is like a hypervisor (an OS that can host other OSes).
+    every change made to Kubernetes is made through an API. You want all docker containers deployed into the Kubernetes clusters.
+Minikube
+Kubernetes certificates (master) expire every year.
+Anything you create in Kubernetes is restricted automatically. You gain access to the pods through a service (defined through a .yaml file). 
+NodePort, LoadBalancer, Ingress.
+Terraform - infrastructure definition. Used to spin up the cluster and host for Kubernetes.
+
+**Learn how to host our crm container in a container repo (ECR - AWS). Create an IT request to build a terraform and set up policies for CRM.
+#Site247

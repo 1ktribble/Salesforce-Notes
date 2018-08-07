@@ -1,0 +1,31 @@
+#########################################################################################################
+Advanced Apex Programming - Dan Appleman
+#########################################################################################################
+
+***
+1 - The Salesforce Execution Context
+
+3 things to remember:
+    a. Static variables are maintained through an execution context and are unique to an execution context.
+    b. Most limits are reset every execution. Different types of exeuction contexts can have different 
+        limits - break down what this means.
+    c. You can't know when an execution context ends, but you can know when it starts.
+
+When two triggers exist on an object, they share an execution context and therefore share the same
+    limits. A flow on that object also shares that execution context.
+
+Use a boolean static variable to determine whether or not your trigger has already run a first time.
+
+***
+2 - Apex Static variables
+They do not persist information
+
+Static variables in Apex do not need to be synchronized. They are the equivalent to thread local storage, and are
+    deleted when execution completes. Each thread has its own copy of the static variable.
+
+@future calls are asynchronous operations that can be queued by your code. They are for complex operations and
+    are scheduled by the platform based on server load.
+@future calls can only be invoked around 50 times from an execution context and cannot be made from another
+    future context.
+
+***
