@@ -1,1 +1,59 @@
 ## Salesforce DX - Continuous Integration and Continuous Delivery - https://bit.ly/2nHZR6B
+## Josh Kaplan @joshSFDC
+
+# Elements of CI
+1. Environments should match up with the goals you're trying to accomplish.
+2. Come up with a Version Control strategy
+3. Automate Test Execution
+4. Run different tests during different points of the delivery process
+5. Branching strategy
+
+#Automated Processes in the world of SFDX
+Developer Environment
+    -Make changes
+    -deploy from local to the scratch org
+    -run local tests
+    -commit to develop branch
+Testing Environment
+    -CI tool creates other scratch orgs and deploys code to those orgs
+    --Using an SFDX Push (for dev process)
+    --Using packages (for sandbox deployment process)
+    -Run Tests in both orgs
+    -Tear down orgs
+Production Environment
+
+#Continuous Delivery Pipeline
+UAT Environment
+    -Refresh Sandbox
+    -Deploy to Sandbox
+    -User Manual verification
+Staging Environment
+    -Refresh
+    -Deploy
+    -Re-run tests
+Feature Testing
+
+Performance Testing
+
+User Acceptance Testing
+
+Performance Testing
+
+Staging
+
+Production
+
+#Branching strategy
+May be best to line up a branch for each environment in the process.
+Want to make a new feature?
+    -merge master into develop
+    -create feature branch
+    -merge to develop. run tests.
+    -deploy into QA sandbox for testing.
+    -**deploy into staging sandbox to identify candidates for release.
+
+# CI Core Principles
+    - Test-Driven Development
+    - Check in often. Run Tests often
+
+# SFDX Automating Testing.
